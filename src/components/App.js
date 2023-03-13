@@ -52,9 +52,13 @@ function App() {
   }
 
   const handleClick = (event) => {
-    event.prevent.default();
-    setData([...data,newPhrase])
-    setNewPhrase();
+    event.preventDefault();
+    setData([...data,{
+      quote:newPhrase,
+      character:newCharacter,
+    }])
+    setNewPhrase('');
+    setNewCharacter('');
   }
 
   /* FUNCIONES Y VARIABLES AUXILIARES PARA PINTAR EL HTML */
