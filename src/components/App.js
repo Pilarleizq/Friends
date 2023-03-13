@@ -14,6 +14,8 @@ function App() {
   const [data, setData] = useState(phrases);
   const [filterPhrase, setFilterPhrase] = useState('');
   const [filterCharacter, setFilterCharacter] = useState('');
+  const [newPhrase, setNewPhrase] = useState('');
+  const [newCharacter, setNewCharacter] = useState('');
 
   /* EFECTOS (día 5) */
 
@@ -37,8 +39,22 @@ function App() {
     setFilterPhrase(event.target.value);
   }
 
-  const handlerCharacter = (event) => {
+  const handleCharacter = (event) => {
     setFilterCharacter(event.target.value);
+  }
+
+  const handleNewPhrase = (event) => {
+    setNewPhrase(event.target.value);
+  }
+
+  const handleNewCharacter = (event) => {
+    setNewCharacter(event.target.value);
+  }
+
+  const handleClick = (event) => {
+    event.prevent.default();
+    setData([...data,newPhrase])
+    setNewPhrase();
   }
 
   /* FUNCIONES Y VARIABLES AUXILIARES PARA PINTAR EL HTML */
@@ -63,7 +79,7 @@ function App() {
           </label>
           <label>
             Filtrar por personaje:
-            <select onInput={handlerCharacter} value={filterCharacter} className="filter-character" name="personaje" id="personaje">
+            <select onInput={handleCharacter} value={filterCharacter} className="filter-character" name="personaje" id="personaje">
               <option value="Todos">Todos</option>
               <option value="Ross">Ross</option>
               <option value="Chandler">Chandler</option>
@@ -76,9 +92,40 @@ function App() {
         </form>
     </header>
     <main className="phrases">
+
       <ul className="list">
       {renderList()}
       </ul>
+
+      <form className='new'>
+        <h2 className='new-title'>Añade una frase nueva</h2>
+        <label>
+          Nueva frase:
+        <input
+        className="new-phrase"
+        type="text"
+        name="phrase"
+        id="phrase"
+        placeholder='Nueva frase'
+        onInput={handleNewPhrase}
+        value={newPhrase}
+        />
+        </label>
+        <label>
+          Nuevo personaje: 
+        <input
+        className='new-character'
+        type="text"
+        name="character"
+        id="character"
+        placeholder='Nuevo personaje'
+        onInput={handleNewCharacter}
+        value={newCharacter}
+        />
+        </label>
+        <input onClick={handleClick} className="new-phrase__btn" type="submit" value="Añadir nueva frase" />
+      
+      </form>
     </main>
   </div>
   );

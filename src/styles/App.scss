@@ -42,3 +42,31 @@
     color:rgb(102, 188, 56);
 }
 
+.new-title {
+    padding: 10px;
+    margin-bottom: 10px;
+    color:rgb(61, 124, 73);
+    background-color: lightgreen;
+    box-shadow: 5px 5px;
+}
+
+.new {
+    margin: auto;
+    padding: 20px;
+    width: 50vw;
+    height:20vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    border: 5px solid rgb(64, 131, 64);
+    background-color: mediumseagreen;
+    border-radius: 50%;
+}
+
+.new-phrase, .new-character, .new-phrase__btn {
+    margin:5px;
+}
+
+
+
