@@ -1,0 +1,44 @@
+/* Aquí van tus estilos */
+.header__title{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-name, .filter-character {
+    padding: 3px;
+    margin: 10px;
+    border: 1px solid rgb(102, 188, 56);
+    background-color: rgb(200, 236, 200);
+}
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+
+.list {
+    padding: 10px;
+    margin: 10px;
+    list-style: none;
+    
+    
+    
+    
+    &__item{
+        flex-direction: row;
+        flex-wrap: wrap;
+        border: 1px solid grey;
+        border-radius: 3%;
+        padding: 5px;
+        margin: 10px;
+    }
+}
+
+.character{
+    color:rgb(102, 188, 56);
+}
+
