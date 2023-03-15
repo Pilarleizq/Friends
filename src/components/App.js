@@ -4,20 +4,29 @@
 // - Sass
 // - Imágenes
 import '../styles/App.scss';
-import phrases from '../data/phrases.json';
-import { useState } from 'react';
+// import phrases from '../data/phrases.json';
+import { useEffect, useState } from 'react';
+import getPhraseFromApi from '../services/api';
 
 
 /* SECCIÓN DEL COMPONENTE */
 function App() {
   /* VARIABLES ESTADO (DATOS) */
-  const [data, setData] = useState(phrases);
+  const [data, setData] = useState([]);
   const [filterPhrase, setFilterPhrase] = useState('');
-  const [filterCharacter, setFilterCharacter] = useState('');
+  const [filterCharacter, setFilterCharacter] = useState('Todos');
   const [newPhrase, setNewPhrase] = useState('');
   const [newCharacter, setNewCharacter] = useState('');
+  const [error, setError] = useState('');
 
   /* EFECTOS (día 5) */
+
+  useEffect(() => {
+    getPhraseFromApi()
+    .then((data) => {
+      setData(data);
+    });
+  }, []);
 
   const renderList = () => {
     return data
@@ -25,8 +34,11 @@ function App() {
       return eachPhrase.quote.toLowerCase().includes(filterPhrase.toLowerCase());
     })
     .filter ((eachPhrase)=>{
-      return eachPhrase.character.includes(filterCharacter);
-    })
+      if (filterCharacter === 'Todos'){
+        return true;
+      } else {
+      return eachPhrase.character === filterCharacter;
+    }})
     .map((eachPhrase, i) => (
       <li className="list__item" key={i}>
         <p>{eachPhrase.quote} </p><p className="character">- {eachPhrase.character}</p>
@@ -53,12 +65,16 @@ function App() {
 
   const handleClick = (event) => {
     event.preventDefault();
+    if (newPhrase !== '' && newCharacter !== '') {
     setData([...data,{
       quote:newPhrase,
       character:newCharacter,
-    }])
+    }]) 
     setNewPhrase('');
     setNewCharacter('');
+  } else {
+    setError('¡Rellena los campos, armadillo navideño!')
+  }
   }
 
   /* FUNCIONES Y VARIABLES AUXILIARES PARA PINTAR EL HTML */
@@ -69,19 +85,20 @@ function App() {
     <header className="header">
       <h1 className="header__title">Frases de friends</h1>
       <form className="form">
-        <label>
+        <label htmlFor='filter'>
           Filtrar por frase: 
           <input
             className="filter-name"
             autoComplete="off"
             type="search"
+            id="filter"
             name="filter"
             placeholder="Filtrar por frase"
             onInput={handlerFilter}
             value={filterPhrase}
           />
           </label>
-          <label>
+          <label htmlFor="personaje">
             Filtrar por personaje:
             <select onInput={handleCharacter} value={filterCharacter} className="filter-character" name="personaje" id="personaje">
               <option value="Todos">Todos</option>
@@ -100,10 +117,10 @@ function App() {
       <ul className="list">
       {renderList()}
       </ul>
-
+      <p className='error'>{error}</p>
       <form className='new'>
         <h2 className='new-title'>Añade una frase nueva</h2>
-        <label>
+        <label htmlFor="phrase">
           Nueva frase:
         <input
         className="new-phrase"
@@ -115,7 +132,7 @@ function App() {
         value={newPhrase}
         />
         </label>
-        <label>
+        <label htmlFor="character">
           Nuevo personaje: 
         <input
         className='new-character'
